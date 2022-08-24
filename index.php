@@ -1,12 +1,14 @@
 <?php include("conexion.php")  ?>
 <?php
+
+
 if($_POST){
     print_r($_POST);
     $name= $_POST['name'];
 $objConexion= new conexion();
 
 $sql="INSERT INTO `productos` (`id`, `name`, `description`, `price`) VALUES (NULL, '$name', ' 8gb de ram 1tb ion', '2500');";
-
+$objConexion->ejecutar($sql);
 
 
 }
