@@ -1,17 +1,36 @@
 <?php include("conexion.php")  ?>
+<?php include("Cabecera1.php")?>
+<?php include("Cabecera.php")?>
 <?php
 
 
 if($_POST){
     print_r($_POST);
     $name= $_POST['name'];
-$objConexion= new conexion();
+    $description= $_POST['description'];
+    $price= $_POST['price'];
+$objconexion= new conexion();
 
-$sql="INSERT INTO `productos` (`id`, `name`, `description`, `price`) VALUES (NULL, '$name', ' 8gb de ram 1tb ion', '2500');";
-$objConexion->ejecutar($sql);
+$sql="INSERT INTO `productos` (`id`, `name`, `description`, `price`) VALUES (NULL, '$name', ' $description', '$price');";
+
+$objconexion->ejecutar($sql);
 
 
 }
+if($_GET){
+    //"DELETE FROM `productos` WHERE `productos`.`id` = 17"
+    $id=$_GET['borrar'];
+    $objconexion= new conexion();
+    $sql="DELETE FROM `productos` WHERE `productos`.`id` =".$id;
+    $objconexion->ejecutar($sql);
+}
+
+$objconexion= new conexion();
+$resultado=$objconexion->consultar("SELECT * FROM `productos`");
+
+//print_r($resultado);
+
+
 
 
 
@@ -56,17 +75,22 @@ $objConexion->ejecutar($sql);
                 <th>Producto</th>
                 <th>Descripcion</th>
                 <th>Precio</th>
+                <th>Acciones </th>
             </tr>
         </thead>
         <tbody>
+
+        <?php foreach($resultado as $productos)   { ?>
          
-            <tr>
-                <td>1</td>
-                <td>Helado de limon</td>
-                <td>1/4</td>
-                <td>550$</td>
-                <td><a class="btn btn-danger" href="" role="button"> Eliminar </a> </td>
-            </tr>
+         <tr>
+             <td><?php echo $productos['id'];?></td>
+             <td><?php echo $productos['name'];?></td>
+             <td><?php echo $productos['description'];?></td>
+             <td><?php echo $productos['price'];?></td>
+             <td><a class="btn btn-danger" href="?borrar=<?php  echo $productos['id']; ?>" role="button"> Eliminar </a> </td>
+         </tr>
+         <?php } ?>
+       
           
         </tbody>
     </table>

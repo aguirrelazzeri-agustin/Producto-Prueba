@@ -10,7 +10,7 @@ class conexion {
 
 
 
-    public function _construct(){
+    public function __construct(){
         try {
             $this->conexion= new PDO("mysql:host=$this->servidor;dbname=prueba",$this->user,$this->password);
             $this->conexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
@@ -31,13 +31,11 @@ class conexion {
     
    }
 
- 
-}
-
-?>
-
-
-   
+   public function consultar($sql){
+    $sentencia=$this->conexion->prepare($sql);
+    $sentencia->execute();
+    return $sentencia->fetchAll();
+   }
 
  
 }
